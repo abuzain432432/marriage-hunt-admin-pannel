@@ -1,0 +1,160 @@
+.text {
+  color: inherit;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-weight: normal;
+
+  &.disableMarginBottom {
+    margin-bottom: 0;
+  }
+}
+
+span.text {
+  margin-bottom: 0;
+}
+
+a.text {
+  text-decoration: underline;
+  margin-bottom: 0;
+}
+
+.allCaps {
+  text-transform: uppercase;
+}
+.xxxl {
+  font-size: 3.5rem;
+  line-height: 3rem;
+  letter-spacing: -0.03em;
+  &.responsive {
+    @media (min-width: 992px) {
+      font-size: 4rem;
+      line-height: 3.5rem;
+    }
+  }
+}
+
+.xxl {
+  font-size: 2.5rem;
+  line-height: 2.75rem;
+  letter-spacing: -0.02em;
+  &.responsive {
+    @media (min-width: 992px) {
+      font-size: 3.875rem;
+      line-height: 4.125rem;
+    }
+  }
+}
+
+.xl {
+  font-size: 2.5rem;
+  line-height: 2.75rem;
+  letter-spacing: -0.02em;
+  text-align: center;
+
+  @media (min-width: 992px) {
+    font-size: 3.25rem;
+    line-height: 4.125rem;
+  }
+}
+
+.l {
+  font-size: 1.5rem;
+  line-height: 1.75rem;
+  letter-spacing: -0.012em;
+
+  &.responsive {
+    @media (min-width: 992px) {
+      font-size: 2.125rem;
+      line-height: 2.5rem;
+      margin-left: 0;
+    }
+  }
+}
+
+.m {
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+  letter-spacing: -1%;
+
+  &.responsive {
+    @media (min-width: 992px) {
+      font-size: 1.5rem;
+      line-height: 1.625rem;
+    }
+  }
+}
+
+.m-20 {
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+  letter-spacing: -1%;
+
+  &.responsive {
+    @media (min-width: 992px) {
+      font-size: 1.25rem;
+      line-height: 1.625rem;
+    }
+  }
+}
+
+.s {
+  font-size: 1rem;
+  line-height: 1.25rem;
+  letter-spacing: 0;
+
+  &.allCaps {
+    font-size: 0.9375rem;
+    line-height: 1.125rem;
+    letter-spacing: -0.005em;
+  }
+
+  &.responsive {
+    @media (min-width: 992px) {
+      font-size: 1.125rem;
+      line-height: 1.375rem;
+    }
+  }
+}
+
+.xs {
+  font-size: 0.875rem;
+  line-height: 1.125rem;
+  letter-spacing: 0;
+
+  &.allCaps {
+    letter-spacing: -0.005em;
+  }
+
+  &.responsive {
+    @media (min-width: 992px) {
+      font-size: 1rem;
+      line-height: 1.25rem;
+    }
+  }
+}
+
+.xxs {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  letter-spacing: 0;
+
+  &.responsive {
+    @media (min-width: 992px) {
+      font-size: 0.875rem;
+      line-height: 1.125rem;
+      letter-spacing: -0.01em;
+    }
+  }
+}
+
+.caps {
+  font-size: 1.125rem;
+  line-height: 1.375rem;
+  letter-spacing: 0;
+  text-transform: uppercase;
+
+  @media (min-width: 992px) {
+    font-size: 1.25rem;
+    line-height: 1.625rem;
+  }
+}
