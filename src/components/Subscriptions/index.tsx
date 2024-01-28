@@ -1,22 +1,21 @@
 'use client';
 import React, { useState } from 'react';
-import UsersTable from '@/components/Users/UsersTable';
 import CustomPagination from '@/components/ui/CustomPagination';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { getUsersQueryKey } from '@/lib/react-query';
-import { getUsers } from '@/server/actions';
+import { getSubscriptionsQueryKey } from '@/lib/react-query';
+import { getSubscriptions } from '@/server/actions';
 import CustomErrorsPage from '@/components/ui/CustomErrorsPage';
 import TableLoading from '@/components/ui/TableLoading';
 import ShadowContainer from '../ui/ShadowContainer';
+import SubscriptionsTable from './SubscriptionsTable';
 
-export default function Users() {
+export default function Subscription() {
   const [page, setPage] = useState(1);
 
   const { error, data, isRefetching, isPlaceholderData } = useQuery({
-    queryKey: [getUsersQueryKey, page],
-    queryFn: () => getUsers(page),
+    queryKey: [getSubscriptionsQueryKey, page],
+    queryFn: () => getSubscriptions(page),
     placeholderData: keepPreviousData,
-    retry: false,
   });
   let renderedComponent;
   if (isRefetching) {
@@ -31,7 +30,7 @@ export default function Users() {
   if (!isPlaceholderData && data?.success) {
     renderedComponent = (
       <>
-        <UsersTable data={data.success.data} />
+        <SubscriptionsTable data={data.success.data} />
         <div className='border-t pt-5 border-t-gray-200'>
           <CustomPagination
             hasNoPreviousPage={page <= 1}

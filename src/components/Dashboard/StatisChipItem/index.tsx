@@ -1,3 +1,4 @@
+import ShadowContainer from '@/components/ui/ShadowContainer';
 import { Text } from '@/components/ui/Text';
 import { LINKS } from '@/lib/contants';
 import Link from 'next/link';
@@ -15,10 +16,7 @@ export default function StatisChipItem({
   href: LINKS;
 }) {
   return (
-    <li
-      style={{ boxShadow: '#a9a9a984 0px 0px 15px 4px' }}
-      className='flex-1 rounded-xl flex relative items-center gap-6    py-8 px-6'
-    >
+    <ShadowContainer className='flex-1 rounded-xl flex relative items-center gap-6    py-8 px-6'>
       {icon}
       <div className='  text-gray-800'>
         <Text size={'l'} disableMarginBottom>
@@ -34,6 +32,6 @@ export default function StatisChipItem({
       >
         View all
       </Link>
-    </li>
+    </ShadowContainer>
   );
 }

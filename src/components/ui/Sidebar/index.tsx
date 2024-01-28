@@ -37,7 +37,7 @@ export default function Sidebar() {
       </p>
       <ul className='w-10/12 flex my-5 flex-col gap-4 mx-auto'>
         {sidebarItems.map(item => (
-          <Link href={item.href}>
+          <Link key={item.label} href={item.href}>
             <Text
               as='div'
               disableMarginBottom

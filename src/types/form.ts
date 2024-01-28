@@ -6,3 +6,12 @@ export const loginSchema = z.object({
   }),
   password: z.string().min(1, { message: 'Password is required' }),
 });
+
+export const changeReportStatusSchema = z.object({
+  status: z.string(),
+  id: z.string(),
+});
+
+export const deteteUserSchema = z.object({
+  id: z.string(),
+});

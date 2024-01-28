@@ -1,4 +1,5 @@
 'use client';
+import ShadowContainer from '@/components/ui/ShadowContainer';
 import { Text } from '@/components/ui/Text';
 import React from 'react';
 import { ResponsiveContainer, PieChart, Pie, Legend } from 'recharts';
@@ -13,10 +14,7 @@ export default function StatisPieChart({
   href: string;
 }) {
   return (
-    <div
-      className='h-full pt-8 pb-14 px-5  rounded-2xl overflow-hidden'
-      style={{ boxShadow: '#a9a9a984 0px 0px 15px 4px' }}
-    >
+    <ShadowContainer className='h-full pt-8 pb-14 px-5  rounded-2xl overflow-hidden'>
       <Text disableMarginBottom as='h3' size={'l'}>
         {label}
       </Text>
@@ -30,6 +28,6 @@ export default function StatisPieChart({
           <Legend />
         </PieChart>
       </ResponsiveContainer>
-    </div>
+    </ShadowContainer>
   );
 }

@@ -14,7 +14,6 @@ export default async function UsersPage() {
   await queryClient.prefetchQuery({
     queryKey: [getUsersQueryKey, 1],
     queryFn: () => getUsers(1),
-    staleTime: 60,
     retry: false,
   });
   return (

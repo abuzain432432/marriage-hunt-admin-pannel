@@ -12,6 +12,7 @@ import { getMeAction } from '@/server/actions';
 
 export default async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
+  console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
   const isPublicPath = publicRoutes.some(route => route === path);
   const isPrivatePath = protectedRoutes.some(route => route === path);
 
@@ -25,13 +26,13 @@ export default async function middleware(req: NextRequest) {
     console.info(err);
   }
 
-  // if (isPublicPath && user && user?.role === 'admin') {
-  //   return NextResponse.redirect(
-  //     new URL(LINKS.DASHBOARD, req.nextUrl)
-  //   );
-  // } else if (isPrivatePath && user?.role !== 'admin') {
-  //   return NextResponse.redirect(new URL(LINKS.LOGIN, req.nextUrl));
-  // }
+  if (isPublicPath && user && user?.role === 'admin') {
+    return NextResponse.redirect(
+      new URL(LINKS.DASHBOARD, req.nextUrl)
+    );
+  } else if (isPrivatePath && user?.role !== 'admin') {
+    return NextResponse.redirect(new URL(LINKS.LOGIN, req.nextUrl));
+  }
 }
 
 export const config = {

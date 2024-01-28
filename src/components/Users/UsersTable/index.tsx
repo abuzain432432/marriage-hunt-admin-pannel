@@ -1,4 +1,5 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -7,19 +8,31 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import Link from 'next/link';
 import {
-  LINKS,
-  PUBLIC_IMAGE_BASE_URL,
-  WEBSITE_BASE_URL,
-} from '@/lib/contants';
-import CustomPagination from '@/components/ui/CustomPagination';
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import Link from 'next/link';
 import { UserType } from '@/types';
-import Image from 'next/image';
-import { formateDate, formateDateInDaysAgo } from '@/lib/utils';
+import {
+  formateDate,
+  formateDateInDaysAgo,
+  getUserProfilePage,
+} from '@/lib/utils';
+import CustomAvatar from '@/components/ui/CustomAvatar';
+import UserReports from '../UserReports';
+import { Button } from '@/components/ui/button';
+import UserDelelteCofirmationModal from '../UserDelelteCofirmationModal';
 // import * as timeago from 'timeago.js';
 
 export default function UsersTable({ data }: { data: UserType[] }) {
+  const [selectedUserId, setSelectedUserId] = useState<null | string>(
+    null
+  );
+  const [toBeDeletedUser, setToBeDeletedUser] =
+    useState<UserType | null>(null);
   return (
     <Table>
       <TableHeader>
@@ -47,10 +60,13 @@ export default function UsersTable({ data }: { data: UserType[] }) {
           <TableHead className='w-[75px] whitespace-nowrap'>
             Profile page
           </TableHead>
+          <TableHead className='w-[75px] whitespace-nowrap'>
+            Action
+          </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.map(user => (
+        {data?.map(user => (
           <TableRow key={user._id}>
             <TableCell>{user.firstName}</TableCell>
             <TableCell>{user.email}</TableCell>
@@ -69,30 +85,41 @@ export default function UsersTable({ data }: { data: UserType[] }) {
 
             <TableCell className='w-[100px] whitespace-nowrap '>
               {user.lastSeen
-                ? formateDateInDaysAgo(user.lastSeen)
+                ? formateDateInDaysAgo(user.lastSeen).toString()
                 : 'Never Active'}
             </TableCell>
             <TableCell className='w-[75px]'>
-              <div className='w-[35px] relative overflow-hidden mx-auto h-[35px] bg-gray-300 rounded-full'>
-                <Image
-                  alt={`${user?.firstName}`}
-                  fill
-                  sizes='50px'
-                  className='w-auto h-auto'
-                  src={`${PUBLIC_IMAGE_BASE_URL}/${user.photo}`}
-                />
-              </div>
+              <CustomAvatar
+                photo={user.photo}
+                altText={user?.firstName as string}
+              />
             </TableCell>
             <TableCell className='w-[75px] text-center whitespace-nowrap'>
-              <Link className='text-red-600' href={LINKS.USERS}>
-                View
-              </Link>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div
+                      role='button'
+                      onClick={() => setSelectedUserId(user._id)}
+                    >
+                      <span className='px-2 py-1 text-white rounded-full cursor-pointer bg-red-600 font-semibold'>
+                        {user.reportCount}
+                      </span>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>
+                      Click here to view report history of this user
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </TableCell>
             <TableCell className='w-[75px] text-center whitespace-nowrap'>
               {user.active && user.subscription ? (
                 <Link
                   className='text-cyan-600'
-                  href={`${WEBSITE_BASE_URL}/partnersuggestions/${user._id}`}
+                  href={getUserProfilePage(user._id)}
                 >
                   View
                 </Link>
@@ -102,9 +129,28 @@ export default function UsersTable({ data }: { data: UserType[] }) {
                 </button>
               )}
             </TableCell>
+            <TableCell className='w-[75px]'>
+              <Button
+                onClick={() => setToBeDeletedUser(user)}
+                size='sm'
+                variant={'outlineRed'}
+              >
+                Delete
+              </Button>
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>
+      {selectedUserId && (
+        <UserReports
+          onClose={() => setSelectedUserId(null)}
+          id={selectedUserId}
+        />
+      )}
+      <UserDelelteCofirmationModal
+        onModalClose={() => setToBeDeletedUser(null)}
+        user={toBeDeletedUser}
+      />
     </Table>
   );
 }

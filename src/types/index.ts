@@ -52,8 +52,8 @@ export type UserType = {
   favoriteCount: number;
   accountType: string;
   age: number;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   __v: number;
   bio: string;
   dateOfBirth: Date;
@@ -61,7 +61,8 @@ export type UserType = {
   maritalStatus: string;
   lastSeen: Date;
   subscription?: string;
-  visitCount: 0;
+  visitCount: number;
+  reportCount: number;
 };
 
 export type LoginApiResponseType = {
@@ -76,3 +77,49 @@ export type GetUsersApiResponseType = {
   pages: number;
   data: UserType[];
 };
+
+export type SubscriptionDetailsType = {
+  _id: string;
+  user: { firstName: string; photo: string; email: string };
+  customer: string;
+  invoice: string;
+  subscription: string;
+  interval: string;
+  amount: 20;
+  currency: string;
+  session: string;
+  autoRenew: true;
+  status: 'active' | 'canceled';
+  createdAt: string;
+  updatedAt: string;
+  __v: 0;
+  endDate: string;
+  startDate: string;
+};
+export type GetSubscriptionApiResponseType =
+  SharedApiPaginationsResponseTye<SubscriptionDetailsType>;
+
+export type UserReportDetailsType = {
+  _id: string;
+  reporter: {
+    _id: string;
+    firstName: string;
+    photo: string;
+    email: string;
+  };
+  reportedUser: {
+    _id: string;
+    firstName: string;
+    photo: string;
+    email: string;
+  };
+  reportType: string;
+  description: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: 0;
+};
+
+export type GetUserReportsApiResponseType =
+  SharedApiPaginationsResponseTye<UserReportDetailsType>;

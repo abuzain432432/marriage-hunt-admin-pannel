@@ -1,8 +1,14 @@
 'use server';
-import { loginSchema } from '@/types/form';
+import {
+  changeReportStatusSchema,
+  deteteUserSchema,
+  loginSchema,
+} from '@/types/form';
 import { APPLICATION_JSON_HEADER } from '@/lib/contants';
 import { createSafeActionClient } from 'next-safe-action';
 import {
+  GetSubscriptionApiResponseType,
+  GetUserReportsApiResponseType,
   GetUsersApiResponseType,
   LoginApiResponseType,
   NServerErrorType,
@@ -50,7 +56,7 @@ export const getMeAction = async () => {
 
 export const getUsers = async (page: number) => {
   const response = await fetch(
-    `${API_BASE}/users/?page=${page}&limit=1`,
+    `${API_BASE}/users/?page=${page}&limit=3`,
     {
       headers: {
         ...getAuthorizationHeader(),
@@ -64,3 +70,80 @@ export const getUsers = async (page: number) => {
   const data: GetUsersApiResponseType = await response.json();
   return { success: data };
 };
+
+export const getUserReports = async (
+  id: string,
+  page: number,
+  status: null | 'pending' | 'resolved'
+) => {
+  let url = `${API_BASE}/reports/${id}?page=${page}&limit=3`;
+  if (status) {
+    url += `&status=${status}`;
+  }
+  const response = await fetch(url, {
+    headers: {
+      ...getAuthorizationHeader(),
+    },
+  });
+  if (!response.ok) {
+    const error: NServerErrorType = await response.json();
+    return { error: error.message || 'Something went wrong' };
+  }
+  const data: GetUserReportsApiResponseType = await response.json();
+  return { success: data };
+};
+
+export const getSubscriptions = async (page: number) => {
+  const response = await fetch(
+    `${API_BASE}/payments/?page=${page}&limit=5`,
+    {
+      headers: {
+        ...getAuthorizationHeader(),
+      },
+    }
+  );
+  if (!response.ok) {
+    const error: NServerErrorType = await response.json();
+    return { error: error.message || 'Something went wrong' };
+  }
+  const data: GetSubscriptionApiResponseType = await response.json();
+  return { success: data };
+};
+
+export const changeReportStatusAction = action(
+  changeReportStatusSchema,
+  async body => {
+    const response = await fetch(`${API_BASE}/reports/${body.id}`, {
+      method: 'PATCH',
+      headers: {
+        ...getAuthorizationHeader(),
+        ...APPLICATION_JSON_HEADER,
+      },
+
+      body: JSON.stringify({ status: body.status }),
+    });
+    if (!response.ok) {
+      const error: NServerErrorType = await response.json();
+      return { error: error.message || 'Something went wrong' };
+    }
+    const data: { status: string } = await response.json();
+    return { success: data };
+  }
+);
+
+export const deleteUserAction = action(
+  deteteUserSchema,
+  async body => {
+    const response = await fetch(`${API_BASE}/users/${body.id}`, {
+      method: 'DELETE',
+      headers: {
+        ...getAuthorizationHeader(),
+      },
+    });
+    if (!response.ok) {
+      const error: NServerErrorType = await response.json();
+      return { error: error.message || 'Something went wrong' };
+    }
+    return { success: 'User account has been deleted successfully' };
+  }
+);

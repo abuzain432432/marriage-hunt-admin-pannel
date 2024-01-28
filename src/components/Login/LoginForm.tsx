@@ -113,7 +113,7 @@ export default function LoginForm() {
             type='submit'
             className={cn(
               'bg-white text-purple-900 h-14 font-extrabold my-2 px-8 hover:bg-purple-800 flex items-center hover:text-white text-lg',
-              ' disabled:cursor-not-allowed disabled:bg-white'
+              'disabled:cursor-not-allowed disabled:bg-white'
             )}
             variant={'secondary'}
           >

@@ -1,4 +1,5 @@
 'use client';
+import ShadowContainer from '@/components/ui/ShadowContainer';
 import { Text } from '@/components/ui/Text';
 import { LINKS } from '@/lib/contants';
 import Link from 'next/link';
@@ -84,8 +85,7 @@ export default function StatisbarChart({
   href: LINKS;
 }) {
   return (
-    <div
-      style={{ boxShadow: '#a9a9a984 0px 0px 15px 4px' }}
+    <ShadowContainer
       className={
         ' rounded-2xl overflow-hidden bg-white  pt-8 pb-14 px-5 h-full w-full'
       }
@@ -124,6 +124,6 @@ export default function StatisbarChart({
           <Line type='monotone' dataKey='uv' stroke='#82ca9d' />
         </LineChart>
       </ResponsiveContainer>
-    </div>
+    </ShadowContainer>
   );
 }
