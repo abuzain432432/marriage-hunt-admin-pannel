@@ -2,10 +2,10 @@ export type NServerErrorType = {
   message: string;
 };
 
-export type SharedApiMessageStatusResponseType = {
+export type SharedApiMessageStatusResponseType<T = {}> = {
   message: string;
   status: string;
-};
+} & T;
 
 export type SharedApiPaginationsResponseTye<T> = {
   totalDocs: number;
@@ -123,3 +123,23 @@ export type UserReportDetailsType = {
 
 export type GetUserReportsApiResponseType =
   SharedApiPaginationsResponseTye<UserReportDetailsType>;
+
+export type ChangePasswordApiResponseType =
+  SharedApiMessageStatusResponseType<{
+    state: string;
+    token: string;
+    user: UserType;
+  }>;
+
+export type GetPricesApiResponseType = {
+  data: {
+    monthlyPrice: {
+      id: 'price_1OZW1SLy6Ah29kLIif9lKbLL';
+      unit_amount: 2000;
+    };
+    yearlyPrice: {
+      id: 'price_1OZW1JLy6Ah29kLIFPgXBkf3';
+      unit_amount: 20000;
+    };
+  };
+};

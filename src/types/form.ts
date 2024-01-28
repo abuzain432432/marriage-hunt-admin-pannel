@@ -15,3 +15,20 @@ export const changeReportStatusSchema = z.object({
 export const deteteUserSchema = z.object({
   id: z.string(),
 });
+
+export const changePasswordSchema = z.object({
+  passwordCurrent: z
+    .string()
+    .min(1, { message: 'Password is required' }),
+  password: z.string().min(1, { message: 'Password is required' }),
+  passwordConfirm: z
+    .string()
+    .min(1, { message: 'Password is required' }),
+});
+
+export const updatePriceSchema = z.object({
+  price: z.string().min(1, { message: 'Required' }),
+  plan: z
+    .union([z.literal('yearly'), z.literal('monthly')])
+    .optional(),
+});

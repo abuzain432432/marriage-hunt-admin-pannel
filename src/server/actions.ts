@@ -1,12 +1,16 @@
 'use server';
 import {
+  changePasswordSchema,
   changeReportStatusSchema,
   deteteUserSchema,
   loginSchema,
+  updatePriceSchema,
 } from '@/types/form';
 import { APPLICATION_JSON_HEADER } from '@/lib/contants';
 import { createSafeActionClient } from 'next-safe-action';
 import {
+  ChangePasswordApiResponseType,
+  GetPricesApiResponseType,
   GetSubscriptionApiResponseType,
   GetUserReportsApiResponseType,
   GetUsersApiResponseType,
@@ -147,3 +151,65 @@ export const deleteUserAction = action(
     return { success: 'User account has been deleted successfully' };
   }
 );
+
+export const changePasswordAction = action(
+  changePasswordSchema,
+  async body => {
+    const response = await fetch(`${API_BASE}/users/updatepassword`, {
+      method: 'PATCH',
+      headers: {
+        ...APPLICATION_JSON_HEADER,
+        ...getAuthorizationHeader(),
+      },
+      body: JSON.stringify(body),
+    });
+    if (!response.ok) {
+      const error: NServerErrorType = await response.json();
+      return { error: error.message || 'Something went wrong' };
+    }
+    const data: ChangePasswordApiResponseType = await response.json();
+    return { success: data };
+  }
+);
+
+export const updatePriceAction = action(
+  updatePriceSchema,
+  async body => {
+    let url;
+    if (body.plan === 'monthly') {
+      url = `${API_BASE}/prices/update-monthly-price/${body.price}`;
+    } else {
+      url = `${API_BASE}/prices/update-yearly-price/${body.price}`;
+    }
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        ...APPLICATION_JSON_HEADER,
+        ...getAuthorizationHeader(),
+      },
+    });
+    if (!response.ok) {
+      const error: NServerErrorType = await response.json();
+      return { error: error.message || 'Something went wrong' };
+    }
+    const data: ChangePasswordApiResponseType = await response.json();
+    return { success: 'Price updated successfully' };
+  }
+);
+
+export const getPricesAction = async () => {
+  const response = await fetch(`${API_BASE}/prices`, {
+    method: 'GET',
+    headers: {
+      ...getAuthorizationHeader(),
+      ...APPLICATION_JSON_HEADER,
+    },
+  });
+  if (!response.ok) {
+    const error: NServerErrorType = await response.json();
+    return { error: error.message || 'Something went wrong' };
+  }
+  const data: GetPricesApiResponseType = await response.json();
+  return { success: data };
+};
