@@ -3,18 +3,28 @@ import { Text } from '@/components/ui/Text';
 import { LINKS } from '@/lib/contants';
 import Link from 'next/link';
 import React, { ReactNode } from 'react';
-
+import StatisChipItemSkelton from './StatisChipsSkelton';
+type Props = {
+  label: string;
+  icon: ReactNode;
+  statis: string | number | undefined;
+  href: LINKS;
+  isLoading: boolean;
+};
 export default function StatisChipItem({
   label,
   icon,
   statis,
   href,
-}: {
-  label: string;
-  icon: ReactNode;
-  statis: string | number;
-  href: LINKS;
-}) {
+  isLoading,
+}: Props) {
+  if (isLoading) {
+    return (
+      <ShadowContainer className='flex-1 rounded-xl flex relative items-center gap-6    py-8 px-6'>
+        <StatisChipItemSkelton />
+      </ShadowContainer>
+    );
+  }
   return (
     <ShadowContainer className='flex-1 rounded-xl flex relative items-center gap-6    py-8 px-6'>
       {icon}

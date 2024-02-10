@@ -26,3 +26,23 @@ export function formateDate(date: string) {
 export function getUserProfilePage(id: string) {
   return `${WEBSITE_BASE_URL}/partnersuggestions/${id}`;
 }
+
+export const getCurrentYearAndMonth = () => {
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth();
+  return { year: currentYear, month: currentMonth };
+};
+
+export const getStartDateAndEndDateForOverviewApiCall = () => {
+  const { year, month } = getCurrentYearAndMonth();
+
+  const startDate = format(new Date(year, 0, 1), 'yyyy-MM-dd');
+
+  const endDate = format(
+    new Date(year, month, new Date().getDate()),
+    'yyyy-MM-dd'
+  );
+
+  return { startDate, endDate };
+};

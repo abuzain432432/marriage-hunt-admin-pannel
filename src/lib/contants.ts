@@ -20,6 +20,7 @@ export const sitesRoutes = [
   LINKS.DASHBOARD,
   LINKS.SUBSCRIPTIONS,
   LINKS.USERS,
+  LINKS.SECURITY,
 ];
 
 export const publicRoutes = [LINKS.LOGIN];
@@ -28,8 +29,24 @@ export const protectedRoutes = [
   LINKS.DASHBOARD,
   LINKS.SUBSCRIPTIONS,
   LINKS.USERS,
+  LINKS.SECURITY,
 ];
 
 export enum COOKIES {
   JWT = 'token',
 }
+
+export const MONTHS = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+] as const;

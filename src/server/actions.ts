@@ -4,20 +4,28 @@ import {
   changeReportStatusSchema,
   deteteUserSchema,
   loginSchema,
+  logoutSchema,
   updatePriceSchema,
 } from '@/types/form';
 import { APPLICATION_JSON_HEADER } from '@/lib/contants';
 import { createSafeActionClient } from 'next-safe-action';
 import {
   ChangePasswordApiResponseType,
+  GetAccountOverViewApiResponseType,
   GetPricesApiResponseType,
   GetSubscriptionApiResponseType,
+  GetSubscriptionOverViewApiResponseType,
   GetUserReportsApiResponseType,
   GetUsersApiResponseType,
   LoginApiResponseType,
   NServerErrorType,
 } from '@/types';
-import { setSecureJwt, getAuthorizationHeader } from './helpers';
+import {
+  setSecureJwt,
+  getAuthorizationHeader,
+  deleteSecureJwt,
+} from './helpers';
+import { getStartDateAndEndDateForOverviewApiCall } from '@/lib/utils';
 const action = createSafeActionClient();
 const API_BASE = process.env.API_BASE;
 
@@ -213,3 +221,59 @@ export const getPricesAction = async () => {
   const data: GetPricesApiResponseType = await response.json();
   return { success: data };
 };
+
+export const getSubscriptionsOverviewAction = async () => {
+  const { endDate, startDate } =
+    getStartDateAndEndDateForOverviewApiCall();
+  let url = `${API_BASE}/payments/overview/from/${startDate}/to/${endDate}`;
+
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      ...getAuthorizationHeader(),
+    },
+  });
+  if (!response.ok) {
+    const error: NServerErrorType = await response.json();
+    return { error: error.message || 'Something went wrong' };
+  }
+  const data: GetSubscriptionOverViewApiResponseType =
+    await response.json();
+  return { success: data };
+};
+
+export const getUsersOverviewAction = async () => {
+  const { endDate, startDate } =
+    getStartDateAndEndDateForOverviewApiCall();
+  let url = `${API_BASE}/users/overview/from/${startDate}/to/${endDate}`;
+
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      ...getAuthorizationHeader(),
+    },
+  });
+  if (!response.ok) {
+    const error: NServerErrorType = await response.json();
+    return { error: error.message || 'Something went wrong' };
+  }
+  const data: GetAccountOverViewApiResponseType =
+    await response.json();
+  return { success: data };
+};
+
+export const logoutAction = action(logoutSchema, async body => {
+  let url = `${API_BASE}/users/logout`;
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      ...getAuthorizationHeader(),
+    },
+  });
+  if (!response.ok) {
+    const error: NServerErrorType = await response.json();
+    return { error: error.message || 'Something went wrong' };
+  }
+  deleteSecureJwt();
+  return { success: 'Logout successfully' };
+});

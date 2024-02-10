@@ -8,6 +8,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { getPricesAction } from '@/server/actions';
 import { Skeleton } from '@/components/ui/skeleton';
 import CustomErrorsPage from '@/components/ui/CustomErrorsPage';
+import { PRICES_DUMMY_DATA } from '@/Dummy/security';
 
 export default function Plans() {
   const [plan, setPlan] = useState<null | 'yearly' | 'monthly'>(null);
@@ -27,48 +28,55 @@ export default function Plans() {
       </div>
     );
   }
-  if (data?.error) {
-    renderedComponent = <CustomErrorsPage error={data.error} />;
+  {
+    /* //// TODO uncommit this if you have actual api */
   }
-  if (error) {
-    renderedComponent = <CustomErrorsPage error={error.message} />;
-  }
-  if (!isPlaceholderData && data?.success) {
-    renderedComponent = (
-      <div className='w-full gap-5 mb-12 flex'>
-        <div className='bg-purple-800 flex-1 rounded-xl text-white py-4 px-6'>
-          <p className='text-sm font-semibold'>Anual Plans</p>
-          <p className='text-6xl font-extralight my-3'>
-            {data.success.data.yearlyPrice.unit_amount / 100}$
-          </p>
-          <div className='mt-5 flex justify-end'>
-            <Button
-              onClick={() => setPlan('yearly')}
-              size={'sm'}
-              className='bg-white text-purple-800 hover:bg-purple-900 hover:text-white font-semibold '
-            >
-              Change price
-            </Button>
-          </div>
-        </div>
-        <div className='bg-purple-800 flex-1 rounded-xl text-white py-4 px-6'>
-          <p className='text-sm font-semibold'>Monthly Plans</p>
-          <p className='text-6xl font-extralight my-3'>
-            {data.success.data.monthlyPrice.unit_amount / 100}$
-          </p>
-          <div className='mt-5 flex justify-end'>
-            <Button
-              onClick={() => setPlan('monthly')}
-              size={'sm'}
-              className='bg-white text-purple-800 hover:bg-purple-900 hover:text-white font-semibold '
-            >
-              Change price
-            </Button>
-          </div>
+  // if (data?.error) {
+  //   renderedComponent = <CustomErrorsPage error={data.error} />;
+  // }
+  // if (error) {
+  //   renderedComponent = <CustomErrorsPage error={error.message} />;
+  // }
+  // if (!isPlaceholderData && data?.success) {
+  renderedComponent = (
+    <div className='w-full gap-5 mb-12 flex'>
+      <div className='bg-purple-800 flex-1 rounded-xl text-white py-4 px-6'>
+        <p className='text-sm font-semibold'>Anual Plans</p>
+        {/* //// TODO uncommit this if you have actual api */}
+        <p className='text-6xl font-extralight my-3'>
+          {PRICES_DUMMY_DATA.data.yearlyPrice.unit_amount / 100}
+          {/* {data.success.data.yearlyPrice.unit_amount / 100}$ */}
+        </p>
+        <div className='mt-5 flex justify-end'>
+          <Button
+            onClick={() => setPlan('yearly')}
+            size={'sm'}
+            className='bg-white text-purple-800 hover:bg-purple-900 hover:text-white font-semibold '
+          >
+            Change price
+          </Button>
         </div>
       </div>
-    );
-  }
+      <div className='bg-purple-800 flex-1 rounded-xl text-white py-4 px-6'>
+        <p className='text-sm font-semibold'>Monthly Plans</p>
+        <p className='text-6xl font-extralight my-3'>
+          {/* //// TODO uncommit this if you have actual api */}
+          {/* {data.success.data.monthlyPrice.unit_amount / 100}$ */}
+          {PRICES_DUMMY_DATA.data.monthlyPrice.unit_amount / 100}$
+        </p>
+        <div className='mt-5 flex justify-end'>
+          <Button
+            onClick={() => setPlan('monthly')}
+            size={'sm'}
+            className='bg-white text-purple-800 hover:bg-purple-900 hover:text-white font-semibold '
+          >
+            Change price
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+  // }
   return (
     <div
       className='

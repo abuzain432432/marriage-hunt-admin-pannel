@@ -13,77 +13,44 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
+import StatisbarChartSkelton from './StatisbarChartSkelton';
 
-const data = [
-  {
-    name: 'Jan',
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: 'Feb',
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: 'Mar',
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: 'Apr',
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: 'May',
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: 'June',
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: 'July',
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: 'Aug',
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: 'Sep',
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: 'Oct',
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: 'Nov',
-    pv: 4300,
-    amt: 2100,
-  },
-  {
-    name: 'Dec',
-    pv: 4300,
-    amt: 2100,
-  },
-];
-
+export type StatisbarChartDataType =
+  | Record<string, number | string>[]
+  | undefined;
+type Props = {
+  label: string;
+  href: LINKS;
+  isLoading: boolean;
+  data: StatisbarChartDataType;
+  barColors?: string[];
+};
 export default function StatisbarChart({
   label,
   href,
-}: {
-  label: string;
-  href: LINKS;
-}) {
+  isLoading,
+  data,
+  barColors,
+}: Props) {
+  if (isLoading) {
+    return (
+      <ShadowContainer
+        className={
+          'rounded-2xl overflow-hidden bg-white  pt-8 pb-14 px-5 h-full w-full'
+        }
+      >
+        <StatisbarChartSkelton />
+      </ShadowContainer>
+    );
+  }
+  if (!data || data.length === 0) {
+    return (
+      <div>
+        No data available for the chart. Check your data source.
+      </div>
+    );
+  }
+  const dataKeys = Object.keys(data[0]).filter(key => key !== 'name');
   return (
     <ShadowContainer
       className={
@@ -115,12 +82,36 @@ export default function StatisbarChart({
           <XAxis dataKey='name' />
           <YAxis />
           <Tooltip />
-          <Line
+          {dataKeys.map((key, index) => {
+            if (key !== 'name' && barColors && barColors[index]) {
+              // If a color is provided for the current bar, use it
+              return (
+                <Line
+                  key={index}
+                  type='monotone'
+                  dataKey={key}
+                  stroke={barColors[index]}
+                  activeDot={{ r: 8 }}
+                />
+              );
+            }
+            // Otherwise, use a default color (you may customize this)
+            return (
+              <Line
+                key={index}
+                type='monotone'
+                dataKey={key}
+                stroke='#8884d8'
+                activeDot={{ r: 8 }}
+              />
+            );
+          })}
+          {/* <Line
             type='monotone'
             dataKey='pv'
             stroke='#8884d8'
             activeDot={{ r: 8 }}
-          />
+          /> */}
           <Line type='monotone' dataKey='uv' stroke='#82ca9d' />
         </LineChart>
       </ResponsiveContainer>

@@ -1,4 +1,5 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import { IoLogOutOutline } from 'react-icons/io5';
 import { LINKS } from '@/lib/contants';
 import { IoSettings } from 'react-icons/io5';
@@ -7,6 +8,10 @@ import { HiOutlineUsers } from 'react-icons/hi';
 import { FaSackDollar } from 'react-icons/fa6';
 import Link from 'next/link';
 import { Text } from '../Text';
+
+import { cn } from '@/lib/utils';
+import LogoutConfirmation from './LogoutConfirmation';
+
 const sidebarItems = [
   {
     label: 'Overview',
@@ -29,11 +34,14 @@ const sidebarItems = [
     href: LINKS.SECURITY,
   },
 ];
+
 export default function Sidebar() {
+  const [isLogoutModalActive, setIsLogoutModalActive] =
+    useState(false);
   return (
     <div className='w-[300px] relative min-h-screen py-5 bg-gray-800'>
       <p className='text-3xl font-bold text-center text-white'>
-        Israelite Dating
+        Mariage Hunt
       </p>
       <ul className='w-10/12 flex my-5 flex-col gap-4 mx-auto'>
         {sidebarItems.map(item => (
@@ -51,8 +59,16 @@ export default function Sidebar() {
         ))}
       </ul>
       <li className='absolute bottom-11  w-full flex justify-center items-center'>
-        <IoLogOutOutline size={34} className='text-white' />
+        <IoLogOutOutline
+          onClick={() => setIsLogoutModalActive(true)}
+          size={34}
+          className={`text-white ${'cursor-pointer'}`}
+        />
       </li>
+      <LogoutConfirmation
+        open={isLogoutModalActive}
+        onOpenChange={() => setIsLogoutModalActive(false)}
+      />
     </div>
   );
 }

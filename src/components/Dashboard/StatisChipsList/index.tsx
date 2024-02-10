@@ -5,22 +5,40 @@ import { MdCancelScheduleSend } from 'react-icons/md';
 import { VscCompassActive } from 'react-icons/vsc';
 import { TbDeviceIpadHorizontalDollar } from 'react-icons/tb';
 import { LINKS } from '@/lib/contants';
+import {
+  GetAccountOverViewApiResponseType,
+  GetSubscriptionOverViewApiResponseType,
+} from '@/types';
 
-export default function StatisChipsList() {
+type Props = {
+  isSubscriptionsDataLoading: boolean;
+  isUsersDataLoading: boolean;
+  subscriptionsData:
+    | GetSubscriptionOverViewApiResponseType
+    | undefined;
+  usersData: GetAccountOverViewApiResponseType | undefined;
+};
+export default function StatisChipsList({
+  usersData,
+  subscriptionsData,
+  isUsersDataLoading,
+  isSubscriptionsDataLoading,
+}: Props) {
   const statis = [
     {
       label: 'Total accounts',
-      statis: 2000,
+      statis: usersData?.total,
       icon: (
         <div className='bg-purple-600 rounded-full p-3'>
           <FaUserCog size={24} className='text-white' />
         </div>
       ),
       href: LINKS.USERS,
+      isLoading: isUsersDataLoading,
     },
     {
       label: 'Total subscriptions',
-      statis: 200,
+      statis: subscriptionsData?.total,
       icon: (
         <div className='bg-green-600 rounded-full p-3'>
           <TbDeviceIpadHorizontalDollar
@@ -30,26 +48,29 @@ export default function StatisChipsList() {
         </div>
       ),
       href: LINKS.SUBSCRIPTIONS,
+      isLoading: isSubscriptionsDataLoading,
     },
     {
       label: 'Active subscriptions',
-      statis: 200,
+      statis: subscriptionsData?.active,
       icon: (
         <div className='bg-orange-500 rounded-full p-3'>
           <VscCompassActive size={24} className='text-white' />
         </div>
       ),
       href: LINKS.SUBSCRIPTIONS,
+      isLoading: isSubscriptionsDataLoading,
     },
     {
       label: 'Canceled subscriptions',
-      statis: 200,
+      statis: subscriptionsData?.canceled,
       icon: (
         <div className=' bg-red-500 rounded-full p-3'>
           <MdCancelScheduleSend size={24} className='text-white' />
         </div>
       ),
       href: LINKS.SUBSCRIPTIONS,
+      isLoading: isSubscriptionsDataLoading,
     },
   ];
   return (

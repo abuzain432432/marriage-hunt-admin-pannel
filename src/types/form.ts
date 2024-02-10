@@ -32,3 +32,5 @@ export const updatePriceSchema = z.object({
     .union([z.literal('yearly'), z.literal('monthly')])
     .optional(),
 });
+
+export const logoutSchema = z.object({});

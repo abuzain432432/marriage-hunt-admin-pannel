@@ -85,7 +85,7 @@ export type SubscriptionDetailsType = {
   invoice: string;
   subscription: string;
   interval: string;
-  amount: 20;
+  amount: number;
   currency: string;
   session: string;
   autoRenew: true;
@@ -134,12 +134,43 @@ export type ChangePasswordApiResponseType =
 export type GetPricesApiResponseType = {
   data: {
     monthlyPrice: {
-      id: 'price_1OZW1SLy6Ah29kLIif9lKbLL';
-      unit_amount: 2000;
+      id: string;
+      unit_amount: number;
     };
     yearlyPrice: {
-      id: 'price_1OZW1JLy6Ah29kLIFPgXBkf3';
-      unit_amount: 20000;
+      id: string;
+      unit_amount: number;
     };
   };
+};
+
+export type GetSubscriptionOverViewApiResponseType = {
+  status: string;
+  total: number;
+  active: number;
+  canceled: number;
+  yearly: number;
+  monthly: number;
+  data: {
+    count: number;
+    amount: number;
+    subscriptions: string[];
+    month: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+  }[];
+};
+
+export type GetAccountOverViewApiResponseType = {
+  status: string;
+  total: number;
+  data: {
+    count: number;
+    subscribers: number;
+    users: {
+      _id: string;
+      firstName: string;
+      email: string;
+      photo: string;
+    }[];
+    month: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+  }[];
 };

@@ -2,7 +2,7 @@ import { PUBLIC_IMAGE_BASE_URL } from '@/lib/contants';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import React from 'react';
-
+import DefaultImage from '@/assets/images/default-user.jpg';
 export default function CustomAvatar({
   altText,
   photo,
@@ -17,16 +17,25 @@ export default function CustomAvatar({
     classNames = 'w-[35px] h-[35px]';
   }
   if (size === 'md') {
-    classNames = 'w-[75px] h-[75px]';
+    classNames = 'w-[55px] h-[55px]';
   }
   if (size === 'lg') {
     classNames = 'w-[150px] h-[150px]';
   }
+  const photoUrl = photo
+    ? `${PUBLIC_IMAGE_BASE_URL}/${photo}`
+    : DefaultImage; //TODO remove this check it is used for testing purpose only
+  console.log(photo);
   return (
     <div
       className={cn(
-        ' relative overflow-hidden mx-auto  bg-gray-300 rounded-full',
-        classNames
+        `relative overflow-hidden mx-auto  bg-gray-500 rounded-full ${
+          size == 'sm'
+            ? 'w-[100px] h-[100px] '
+            : 'w-[200px] h-[200px] '
+        }`,
+        classNames,
+        ``
       )}
     >
       <Image
@@ -36,7 +45,7 @@ export default function CustomAvatar({
           size == 'sm' ? '100px' : size == 'md' ? '200px' : '300px'
         }
         className='w-auto h-auto'
-        src={`${PUBLIC_IMAGE_BASE_URL}/${photo}`}
+        src={photoUrl}
       />
     </div>
   );

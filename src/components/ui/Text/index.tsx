@@ -63,7 +63,6 @@ export const Text = <
     },
     className
   );
-  console.log(classNames);
 
   return (
     <Element {...props} className={classNames}>

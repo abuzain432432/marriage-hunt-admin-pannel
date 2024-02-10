@@ -11,6 +11,10 @@ export const setSecureJwt = (tkn: string) => {
   });
 };
 
+export const deleteSecureJwt = () => {
+  cookies().delete(COOKIES.JWT);
+};
+
 // Authorization: 'Bearer ' + token,
 
 export const getAuthorizationHeader = () => {
